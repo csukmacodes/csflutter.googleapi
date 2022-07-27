@@ -36,6 +36,16 @@ dependencies:
   cupertino_icons: ^1.0.2
   google_sign_in: ^5.4.0
   googleapis: ^9.1.0
+  extension_google_sign_in_as_googleapis_auth: ^2.0.6
+  url_launcher: ^6.1.5
+  firebase_auth: ^3.5.1
+  firebase_core: ^1.20.0
+#  firebase_auth: ^3.5.0
+#  firebase_core: ^1.20.0
+#  firebase_auth: ^3.4.1
+#  firebase_core: ^1.19.1
+#  firebase_core: ^1.15.0
+#  firebase_auth: ^3.3.15
 
 dev_dependencies:
   flutter_test:

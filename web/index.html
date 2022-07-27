@@ -25,7 +25,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="googleapi">
     <meta name="google-signin-client_id"
-          content="945129258647-eud9qruu14k86d6jlnj34ahk9mbnjo1f.apps.googleusercontent.com">
+          content="945129258647-mh3qn3chb106lof65mkat3ehfv6eb9h7.apps.googleusercontent.com">
     <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
     <!-- Favicon -->
@@ -56,6 +56,29 @@
       return appRunner.runApp();
     });
   });
+</script>
+<script type="module">
+    // Import the functions you need from the SDKs you need
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/9.9.0/firebase-analytics.js";
+    // TODO: Add SDKs for Firebase products that you want to use
+    // https://firebase.google.com/docs/web/setup#available-libraries
+
+    // Your web app's Firebase configuration
+    // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+    const firebaseConfig = {
+        apiKey: "AIzaSyAzDmB2AIzhNhMTArHdXaaX1gZfiwcbL9A",
+        authDomain: "csflutter.firebaseapp.com",
+        projectId: "csflutter",
+        storageBucket: "csflutter.appspot.com",
+        messagingSenderId: "945129258647",
+        appId: "1:945129258647:web:b7291dac273c025683b3d2",
+        measurementId: "G-GKKJJJPQVV"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
 </script>
 </body>
 </html>
