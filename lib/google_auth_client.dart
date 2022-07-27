@@ -1,6 +1,7 @@
 import 'package:http/http.dart' as http;
 
 class GoogleAuthClient extends http.BaseClient {
+  /**class to send http by filling in the header*/
   final Map<String, String> _headers;
 
   final http.Client _client = new http.Client();

@@ -1,10 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:googleapi/authentication.dart';
 import 'package:googleapi/loader.dart';
-import 'package:googleapi/rounded_button.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+/**url to open google drive*/
 final Uri _url = Uri.parse('https://drive.google.com/drive/my-drive');
 
 void main() {
@@ -21,7 +20,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Flutter Google Sheet API'),
     );
   }
 }
@@ -38,7 +37,6 @@ class _MyHomePageState extends State<MyHomePage> {
   bool isLoading = false;
   bool isSuccess = false;
   String infoText = "Google Sheet API";
-  bool _isLoggedIn = false;
 
   @override
   Widget build(BuildContext context) {
@@ -47,50 +45,26 @@ class _MyHomePageState extends State<MyHomePage> {
         title: Text(widget.title),
       ),
       body: Center(
-          child: FutureBuilder(
-        future: Authentication.initializeFirebase(context: context),
-        builder: (context, snapshot) {
-          if (snapshot.hasError) {
-            return const Text('Error initializing Firebase');
-          } else if (snapshot.connectionState == ConnectionState.done) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Text(
-                  infoText,
-                ),
-                !_isLoggedIn
-                    ? RoundedButton(
-                        text: 'Sign In With Google',
-                        onPressed: () async {
-                          User? user = await Authentication.signInWithGoogle(
-                              context: context);
-                          if (user == null) {
-                            setState(() {
-                              _isLoggedIn = false;
-                            });
-                          } else {
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              /**only info text at the top*/
+              Text(
+                infoText,
+              ),
 
-                            setState(() {
-                              infoText = 'Welcome ${user.displayName}\nGoogle Sheet API';
-                              _isLoggedIn = true;
-                            });
-                          }
-                        },
-                      )
-                    : Container(),
-                _isLoggedIn ? btnCreateSheet() : Container()
-              ],
-            );
-          }
-          return BottomLoader();
-        },
-      )), // This trailing comma makes auto-formatting nicer for build methods.
+              /**check while the process is in progress
+               * T= show circle loader
+               * F= show button create spreadsheet*/
+              isLoading ? BottomLoader() : btnCreateSheet()
+            ],
+          )),
     );
   }
 
   void showLoader(bool show) {
+    /**set state loader*/
     setState(() {
       if (show)
         isLoading = true;
@@ -100,27 +74,33 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget btnCreateSheet() {
+    /**button for the process of creating a spreadsheet*/
     return Container(
       child: OutlinedButton(
         onPressed: () async {
           if (isSuccess) {
+            /**if it is successful, open google drive via browser*/
             _launchUrl();
           } else {
             showLoader(true);
+            /**process of creating spreadsheets*/
             await Authentication.sheetOpen();
             showLoader(false);
             setState(() {
+              /**after successful creating spreadsheets, modify info value*/
               isSuccess = true;
               infoText = "Google Sheet Successfully Create";
             });
           }
         },
+        /**change text depending on value isSuccess*/
         child: Text(isSuccess ? 'Open Sheet' : 'Create Sheet'),
       ),
     );
   }
 
   Future<void> _launchUrl() async {
+    /**browser launcher*/
     if (!await launchUrl(_url)) {
       throw 'Could not launch $_url';
     }
