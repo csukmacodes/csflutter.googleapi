@@ -1,6 +1,6 @@
-# googleapi
+# Flutter integration with Google APIs
 
-A new Flutter project.
+A new Flutter project with google sheet api
 
 ## Getting Started
 
